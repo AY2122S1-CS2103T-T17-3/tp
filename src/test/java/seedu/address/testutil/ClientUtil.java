@@ -1,6 +1,7 @@
 package seedu.address.testutil;
 
 import static seedu.address.logic.parser.CliSyntax.PREFIX_ADDRESS;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_BIRTHDAY;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_CURRENTPLAN;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_DISPOSABLEINCOME;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_EMAIL;
@@ -39,6 +40,7 @@ public class ClientUtil {
         sb.append(PREFIX_PHONE + client.getPhone().value + " ");
         sb.append(PREFIX_EMAIL + client.getEmail().value + " ");
         sb.append(PREFIX_ADDRESS + client.getAddress().value + " ");
+        sb.append(PREFIX_BIRTHDAY + client.getBirthday().dateInString + " ");
         sb.append(PREFIX_RISKAPPETITE + client.getRiskAppetite().value + " ");
         sb.append(PREFIX_DISPOSABLEINCOME + client.getDisposableIncome().value + " ");
         sb.append(PREFIX_CURRENTPLAN + client.getCurrentPlan().value + " ");
@@ -57,6 +59,8 @@ public class ClientUtil {
         descriptor.getPhone().ifPresent(phone -> sb.append(PREFIX_PHONE).append(phone.value).append(" "));
         descriptor.getEmail().ifPresent(email -> sb.append(PREFIX_EMAIL).append(email.value).append(" "));
         descriptor.getAddress().ifPresent(address -> sb.append(PREFIX_ADDRESS).append(address.value).append(" "));
+        descriptor.getBirthday().ifPresent(birthday -> sb.append(PREFIX_BIRTHDAY)
+                .append(birthday.dateInString).append(" "));
         descriptor.getRiskAppetite().ifPresent(riskAppetite -> sb.append(PREFIX_RISKAPPETITE)
                 .append(riskAppetite.value).append(" "));
         descriptor.getDisposableIncome().ifPresent(disposableIncome -> sb.append(PREFIX_DISPOSABLEINCOME)

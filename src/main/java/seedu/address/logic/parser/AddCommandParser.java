@@ -2,6 +2,7 @@ package seedu.address.logic.parser;
 
 import static seedu.address.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_ADDRESS;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_BIRTHDAY;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_CLIENTID;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_CURRENTPLAN;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_DISPOSABLEINCOME;
@@ -15,6 +16,7 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
 import static seedu.address.logic.parser.CliSyntax.allPrefixLess;
 import static seedu.address.logic.parser.CliSyntax.allPrefixesPresent;
 
+import java.time.LocalDate;
 import java.util.Set;
 import java.util.function.Function;
 
@@ -22,8 +24,10 @@ import seedu.address.logic.commands.AddCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.Model;
 import seedu.address.model.client.Address;
+import seedu.address.model.client.Birthday;
 import seedu.address.model.client.Client;
 import seedu.address.model.client.ClientId;
+import seedu.address.model.client.CreatedAt;
 import seedu.address.model.client.CurrentPlan;
 import seedu.address.model.client.DisposableIncome;
 import seedu.address.model.client.Email;
@@ -61,8 +65,11 @@ public class AddCommandParser implements Parser<AddCommand> {
 
         Name name = ParserUtil.parseName(argMultimap.getValue(PREFIX_NAME).get());
         Email email = ParserUtil.parseEmail(argMultimap.getValue(PREFIX_EMAIL).get());
+        CreatedAt createdAt = new CreatedAt(LocalDate.now());
         Phone phone = ParserUtil.parsePhone(argMultimap.getValue(PREFIX_PHONE).orElse(Phone.DEFAULT_VALUE));
         Address address = ParserUtil.parseAddress(argMultimap.getValue(PREFIX_ADDRESS).orElse(Address.DEFAULT_VALUE));
+        Birthday birthday = ParserUtil.parseBirthday(argMultimap
+            .getValue(PREFIX_BIRTHDAY).orElse(Birthday.DEFAULT_VALUE));
         RiskAppetite riskAppetite = ParserUtil.parseRiskAppetite(argMultimap
             .getValue(PREFIX_RISKAPPETITE).orElse(RiskAppetite.DEFAULT_VALUE));
         DisposableIncome disposableIncome = ParserUtil.parseDisposableIncome(argMultimap
@@ -75,8 +82,8 @@ public class AddCommandParser implements Parser<AddCommand> {
         nextMeeting.setWithWho(name);
         Set<Tag> tagList = ParserUtil.parseTags(argMultimap.getAllValues(PREFIX_TAG), model);
 
-        Function<ClientId, Client> client = clientId -> new Client(clientId, name, phone, email, address, riskAppetite,
-            disposableIncome, currentPlan, lastMet, nextMeeting, tagList);
+        Function<ClientId, Client> client = clientId -> new Client(clientId, name, phone, email, address, birthday,
+            riskAppetite, disposableIncome, currentPlan, lastMet, nextMeeting, createdAt, tagList);
 
         return new AddCommand(client);
     }

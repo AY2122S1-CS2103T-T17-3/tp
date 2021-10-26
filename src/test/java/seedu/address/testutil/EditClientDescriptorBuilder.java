@@ -6,6 +6,7 @@ import java.util.stream.Stream;
 
 import seedu.address.logic.commands.EditCommand.EditClientDescriptor;
 import seedu.address.model.client.Address;
+import seedu.address.model.client.Birthday;
 import seedu.address.model.client.Client;
 import seedu.address.model.client.CurrentPlan;
 import seedu.address.model.client.DisposableIncome;
@@ -43,6 +44,7 @@ public class EditClientDescriptorBuilder {
         descriptor.setCurrentPlan(client.getCurrentPlan());
         descriptor.setPhone(client.getPhone());
         descriptor.setAddress(client.getAddress());
+        descriptor.setBirthday(client.getBirthday());
         descriptor.setRiskAppetite(client.getRiskAppetite());
         descriptor.setDisposableIncome(client.getDisposableIncome());
         descriptor.setNextMeeting(client.getNextMeeting());
@@ -78,6 +80,14 @@ public class EditClientDescriptorBuilder {
      */
     public EditClientDescriptorBuilder withAddress(String address) {
         descriptor.setAddress(new Address(address));
+        return this;
+    }
+
+    /**
+     * Sets the {@code Birthday} of the {@code EditClientDescriptor} that we are building.
+     */
+    public EditClientDescriptorBuilder withBirthday(String birthday) {
+        descriptor.setBirthday(new Birthday(birthday));
         return this;
     }
 

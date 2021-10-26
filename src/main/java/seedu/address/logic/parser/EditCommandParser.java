@@ -5,6 +5,7 @@ import static seedu.address.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT
 import static seedu.address.commons.mapper.PrefixMapper.parseAndEditSet;
 import static seedu.address.logic.parser.CliSyntax.ALL_PREFIXES;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_CLIENTID;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_CREATEDAT;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
 import static seedu.address.logic.parser.CliSyntax.allPrefixLess;
 
@@ -55,9 +56,13 @@ public class EditCommandParser implements Parser<EditCommand> {
             throw new ParseException(EditCommand.MESSAGE_CHANGE_CLIENTID);
         }
 
+        if (argMultimap.getValue(PREFIX_CREATEDAT).isPresent()) {
+            throw new ParseException(EditCommand.MESSAGE_CHANGE_CREATEDAT);
+        }
+
         EditClientDescriptor editClientDescriptor = new EditClientDescriptor();
 
-        Prefix[] prefixes = allPrefixLess(PREFIX_CLIENTID, PREFIX_TAG);
+        Prefix[] prefixes = allPrefixLess(PREFIX_CLIENTID, PREFIX_CREATEDAT, PREFIX_TAG);
         for (Prefix prefix : prefixes) {
             if (argMultimap.getValue(prefix).isPresent()) {
                 BiConsumer<EditClientDescriptor, String> parseEditSetFunction = parseAndEditSet(prefix);

@@ -11,6 +11,7 @@ import static seedu.address.commons.util.StringUtil.parseToLocalTime;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.Objects;
 
 public class NextMeeting implements OptionalNonStringBasedField {
 
@@ -132,5 +133,13 @@ public class NextMeeting implements OptionalNonStringBasedField {
             && location.equals(((NextMeeting) other).location)
                 && ((withWho == null && ((NextMeeting) other).withWho == null)
                 || withWho.equals(((NextMeeting) other).withWho)));
+    }
+
+    @Override
+    public int hashCode() {
+        if (date == null || startTime == null || endTime == null) {
+            return 0;
+        }
+        return Objects.hash(date, startTime, endTime, location);
     }
 }

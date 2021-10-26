@@ -5,6 +5,7 @@ import static seedu.address.commons.util.StringUtil.CLIENTID_DELIMITER;
 import static seedu.address.commons.util.StringUtil.CLIENT_DELIMITER;
 import static seedu.address.commons.util.StringUtil.joinListToString;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_ADDRESS;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_BIRTHDAY;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_CURRENTPLAN;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_EMAIL;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_LASTMET;
@@ -26,8 +27,10 @@ import seedu.address.commons.util.CollectionUtil;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.Model;
 import seedu.address.model.client.Address;
+import seedu.address.model.client.Birthday;
 import seedu.address.model.client.Client;
 import seedu.address.model.client.ClientId;
+import seedu.address.model.client.CreatedAt;
 import seedu.address.model.client.CurrentPlan;
 import seedu.address.model.client.DisposableIncome;
 import seedu.address.model.client.Email;
@@ -54,6 +57,7 @@ public class EditCommand extends Command {
             + PREFIX_PHONE + "PHONE "
             + PREFIX_EMAIL + "EMAIL "
             + PREFIX_ADDRESS + "ADDRESS "
+            + PREFIX_BIRTHDAY + "BIRTHDAY "
             + PREFIX_LASTMET + "LAST MET "
             + PREFIX_NEXTMEETING + "NEXT MEETING "
             + PREFIX_CURRENTPLAN + "CURRENTPLAN "
@@ -67,6 +71,7 @@ public class EditCommand extends Command {
     public static final String MESSAGE_DUPLICATE_CLIENT = "This operation will result in a"
             + " duplicate in the address book.";
     public static final String MESSAGE_CHANGE_CLIENTID = "Client's ID cannot be changed.";
+    public static final String MESSAGE_CHANGE_CREATEDAT = "Client's CreatedAt cannot be changed.";
 
     private final List<ClientId> clientIds;
     private final EditClientDescriptor editClientDescriptor;
@@ -119,10 +124,12 @@ public class EditCommand extends Command {
         assert clientToEdit != null;
 
         ClientId oldClientId = clientToEdit.getClientId();
+        CreatedAt oldCreatedAt = clientToEdit.getCreatedAt();
         Name updatedName = editClientDescriptor.getName().orElse(clientToEdit.getName());
         Email updatedEmail = editClientDescriptor.getEmail().orElse(clientToEdit.getEmail());
         Phone updatedPhone = editClientDescriptor.getPhone().orElse(clientToEdit.getPhone());
         Address updatedAddress = editClientDescriptor.getAddress().orElse(clientToEdit.getAddress());
+        Birthday updatedBirthday = editClientDescriptor.getBirthday().orElse(clientToEdit.getBirthday());
         RiskAppetite updateRiskAppetite = editClientDescriptor.getRiskAppetite()
                 .orElse(clientToEdit.getRiskAppetite());
         DisposableIncome updatedDisposableIncome = editClientDescriptor.getDisposableIncome()
@@ -133,8 +140,9 @@ public class EditCommand extends Command {
         updatedNextMeeting.setWithWho(updatedName);
         Set<Tag> updatedTags = editClientDescriptor.getTags().orElse(clientToEdit.getTags());
 
-        return new Client(oldClientId, updatedName, updatedPhone, updatedEmail, updatedAddress, updateRiskAppetite,
-                updatedDisposableIncome, updatedCurrentPlan, updatedLastMet, updatedNextMeeting, updatedTags);
+        return new Client(oldClientId, updatedName, updatedPhone, updatedEmail, updatedAddress, updatedBirthday,
+                updateRiskAppetite, updatedDisposableIncome, updatedCurrentPlan, updatedLastMet, updatedNextMeeting,
+                oldCreatedAt, updatedTags);
     }
 
     /**
@@ -145,10 +153,12 @@ public class EditCommand extends Command {
         assert clientToEdit != null;
 
         ClientId oldClientId = clientToEdit.getClientId();
+        CreatedAt oldCreatedAt = clientToEdit.getCreatedAt();
         Name oldName = clientToEdit.getName();
         Email oldEmail = clientToEdit.getEmail();
         Phone oldPhone = clientToEdit.getPhone();
         Address oldAddress = clientToEdit.getAddress();
+        Birthday oldBirthday = clientToEdit.getBirthday();
         RiskAppetite oldRiskAppetite = clientToEdit.getRiskAppetite();
         DisposableIncome oldDisposableIncome = clientToEdit.getDisposableIncome();
         CurrentPlan oldCurrentPlan = clientToEdit.getCurrentPlan();
@@ -160,8 +170,8 @@ public class EditCommand extends Command {
         NextMeeting updatedNextMeeting = NextMeeting.NULL_MEETING;
 
 
-        return new Client(oldClientId, oldName, oldPhone, oldEmail, oldAddress, oldRiskAppetite,
-            oldDisposableIncome, oldCurrentPlan, updatedLastMet, updatedNextMeeting, oldTags);
+        return new Client(oldClientId, oldName, oldPhone, oldEmail, oldAddress, oldBirthday, oldRiskAppetite,
+            oldDisposableIncome, oldCurrentPlan, updatedLastMet, updatedNextMeeting, oldCreatedAt, oldTags);
     }
 
     @Override
@@ -191,6 +201,7 @@ public class EditCommand extends Command {
         private Phone phone;
         private Email email;
         private Address address;
+        private Birthday birthday;
         private RiskAppetite riskAppetite;
         private DisposableIncome disposableIncome;
         private Set<Tag> tags;
@@ -210,6 +221,7 @@ public class EditCommand extends Command {
             setPhone(toCopy.phone);
             setEmail(toCopy.email);
             setAddress(toCopy.address);
+            setBirthday(toCopy.birthday);
             setDisposableIncome(toCopy.disposableIncome);
             setRiskAppetite(toCopy.riskAppetite);
             setLastMet(toCopy.lastMet);
@@ -284,6 +296,14 @@ public class EditCommand extends Command {
             return Optional.ofNullable(address);
         }
 
+        public void setBirthday(Birthday birthday) {
+            this.birthday = birthday;
+        }
+
+        public Optional<Birthday> getBirthday() {
+            return Optional.ofNullable(birthday);
+        }
+
         public void setRiskAppetite(RiskAppetite riskAppetite) {
             this.riskAppetite = riskAppetite;
         }
@@ -336,6 +356,7 @@ public class EditCommand extends Command {
                     && getPhone().equals(e.getPhone())
                     && getEmail().equals(e.getEmail())
                     && getAddress().equals(e.getAddress())
+                    && getBirthday().equals(e.getBirthday())
                     && getLastMet().equals(e.getLastMet())
                     && getNextMeeting().equals(e.getNextMeeting())
                     && getCurrentPlan().equals(e.getCurrentPlan())

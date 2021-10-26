@@ -24,30 +24,34 @@ public class Client {
     // Data fields
     private final Phone phone;
     private final Address address;
+    private final Birthday birthday;
     private final RiskAppetite riskAppetite;
     private final DisposableIncome disposableIncome;
     private final CurrentPlan currentPlan;
     private final LastMet lastMet;
     private final NextMeeting nextMeeting;
+    private final CreatedAt createdAt;
     private final Set<Tag> tags = new HashSet<>();
 
     /**
      * Every field must be present and not null.
      */
-    public Client(ClientId clientId, Name name, Phone phone, Email email, Address address, RiskAppetite riskAppetite,
-                  DisposableIncome disposableIncome, CurrentPlan currentPlan, LastMet lastMet, NextMeeting nextMeeting,
-                  Set<Tag> tags) {
+    public Client(ClientId clientId, Name name, Phone phone, Email email, Address address, Birthday birthday,
+                  RiskAppetite riskAppetite, DisposableIncome disposableIncome, CurrentPlan currentPlan,
+                  LastMet lastMet, NextMeeting nextMeeting, CreatedAt createdAt, Set<Tag> tags) {
         requireAllNonNull(name, phone, email, address, tags);
         this.clientId = clientId;
         this.name = name;
         this.phone = phone;
         this.email = email;
         this.address = address;
+        this.birthday = birthday;
         this.riskAppetite = riskAppetite;
         this.disposableIncome = disposableIncome;
         this.currentPlan = currentPlan;
         this.lastMet = lastMet;
         this.nextMeeting = nextMeeting;
+        this.createdAt = createdAt;
         addTags(tags);
     }
 
@@ -71,8 +75,16 @@ public class Client {
         return email;
     }
 
+    public CreatedAt getCreatedAt() {
+        return createdAt;
+    }
+
     public Address getAddress() {
         return address;
+    }
+
+    public Birthday getBirthday() {
+        return birthday;
     }
 
     public LastMet getLastMet() {
@@ -159,18 +171,21 @@ public class Client {
                 && otherClient.getPhone().equals(getPhone())
                 && otherClient.getEmail().equals(getEmail())
                 && otherClient.getAddress().equals(getAddress())
+                && otherClient.getBirthday().equals(getBirthday())
                 && otherClient.getRiskAppetite().equals(getRiskAppetite())
                 && otherClient.getDisposableIncome().equals(getDisposableIncome())
                 && otherClient.getCurrentPlan().equals(getCurrentPlan())
                 && otherClient.getLastMet().equals(getLastMet())
+                && otherClient.getNextMeeting().equals(getNextMeeting())
+                && otherClient.getCreatedAt().equals(getCreatedAt())
                 && otherClient.getTags().equals(getTags());
-
     }
 
     @Override
     public int hashCode() {
         // use this method for custom fields hashing instead of implementing your own
-        return Objects.hash(name, phone, email, address, lastMet, currentPlan, tags);
+        return Objects.hash(name, phone, email, createdAt, address, birthday, lastMet, currentPlan, riskAppetite,
+            disposableIncome, tags);
     }
 
     @Override
@@ -182,10 +197,14 @@ public class Client {
                 .append(getName())
                 .append("; Email: ")
                 .append(getEmail())
+                .append("; CreatedAt: ")
+                .append(getCreatedAt())
                 .append("; Phone: ")
                 .append(getPhone())
                 .append("; Address: ")
                 .append(getAddress())
+                .append("; Birthday: ")
+                .append(getBirthday())
                 .append("; Risk Appetite: ")
                 .append(getRiskAppetite())
                 .append("; Disposable Income: ")

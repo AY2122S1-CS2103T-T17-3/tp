@@ -13,8 +13,10 @@ import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.commons.util.StringUtil;
 import seedu.address.logic.parser.ParserUtil;
 import seedu.address.model.client.Address;
+import seedu.address.model.client.Birthday;
 import seedu.address.model.client.Client;
 import seedu.address.model.client.ClientId;
+import seedu.address.model.client.CreatedAt;
 import seedu.address.model.client.CurrentPlan;
 import seedu.address.model.client.DisposableIncome;
 import seedu.address.model.client.Email;
@@ -37,11 +39,13 @@ class JsonAdaptedClient {
     private final String phone;
     private final String email;
     private final String address;
+    private final String birthday;
     private final String riskAppetite;
     private final String disposableIncome;
     private final String lastMet;
     private final String nextMeeting;
     private final String currentPlan;
+    private final String createdAt;
     private final List<JsonAdaptedTag> tagged = new ArrayList<>();
 
     /**
@@ -50,12 +54,13 @@ class JsonAdaptedClient {
     @JsonCreator
     public JsonAdaptedClient(@JsonProperty("clientId") String clientId, @JsonProperty("name") String name,
                              @JsonProperty("phone") String phone, @JsonProperty("email") String email,
-                             @JsonProperty("address") String address,
+                             @JsonProperty("address") String address, @JsonProperty("birthday") String birthday,
                              @JsonProperty("riskAppetite") String riskAppetite,
                              @JsonProperty("disposableIncome") String disposableIncome,
                              @JsonProperty("current-plan") String currentPlan,
                              @JsonProperty("last-met") String lastMet,
                              @JsonProperty("next-meeting") String nextMeeting,
+                             @JsonProperty("created-at") String createdAt,
                              @JsonProperty("tagged") List<JsonAdaptedTag> tagged) {
 
         this.clientId = clientId;
@@ -63,11 +68,13 @@ class JsonAdaptedClient {
         this.phone = phone;
         this.email = email;
         this.address = address;
+        this.birthday = birthday;
         this.riskAppetite = riskAppetite;
         this.disposableIncome = disposableIncome;
         this.lastMet = lastMet;
         this.nextMeeting = nextMeeting;
         this.currentPlan = currentPlan;
+        this.createdAt = createdAt;
         if (tagged != null) {
             this.tagged.addAll(tagged);
         }
@@ -82,11 +89,13 @@ class JsonAdaptedClient {
         email = source.getEmail().value;
         phone = source.getPhone().value;
         address = source.getAddress().value;
+        birthday = source.getBirthday().dateInString;
         disposableIncome = source.getDisposableIncome().value;
         riskAppetite = source.getRiskAppetite().value;
         currentPlan = source.getCurrentPlan().value;
         lastMet = source.getLastMet().dateInString;
         nextMeeting = source.getNextMeeting().toString();
+        createdAt = source.getCreatedAt().dateInString;
         tagged.addAll(source.getTags().stream()
                 .map(JsonAdaptedTag::new)
                 .collect(Collectors.toList()));
@@ -104,10 +113,20 @@ class JsonAdaptedClient {
         }
 
         if (clientId == null) {
-            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, Name.class.getSimpleName()));
+            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT,
+                ClientId.class.getSimpleName()));
         }
 
         final ClientId modelClientId = new ClientId(clientId);
+
+        if (createdAt == null) {
+            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT,
+                CreatedAt.class.getSimpleName()));
+        }
+        if (!StringUtil.isValidDate(createdAt)) {
+            throw new IllegalValueException(CreatedAt.MESSAGE_CONSTRAINTS);
+        }
+        final CreatedAt modelCreatedAt = new CreatedAt(createdAt);
 
         if (name == null) {
             throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, Name.class.getSimpleName()));
@@ -124,6 +143,15 @@ class JsonAdaptedClient {
             throw new IllegalValueException(Email.MESSAGE_CONSTRAINTS);
         }
         final Email modelEmail = new Email(email);
+
+        if (birthday == null) {
+            throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT,
+                Birthday.class.getSimpleName()));
+        }
+        if (!StringUtil.isValidDate(birthday)) {
+            throw new IllegalValueException(Birthday.MESSAGE_CONSTRAINTS);
+        }
+        final Birthday modelBirthday = new Birthday(birthday);
 
         if (lastMet == null) {
             throw new IllegalValueException(String.format(MISSING_FIELD_MESSAGE_FORMAT, LastMet.class.getSimpleName()));
@@ -189,8 +217,9 @@ class JsonAdaptedClient {
         final DisposableIncome modelDisposableIncome = new DisposableIncome(disposableIncome);
 
         final Set<Tag> modelTags = new HashSet<>(clientTags);
-        return new Client(modelClientId, modelName, modelPhone, modelEmail, modelAddress, modelRiskAppetite,
-                modelDisposableIncome, modelCurrentPlan, modelLastMet, modelNextMeeting, modelTags);
+        return new Client(modelClientId, modelName, modelPhone, modelEmail, modelAddress, modelBirthday,
+                modelRiskAppetite, modelDisposableIncome, modelCurrentPlan, modelLastMet, modelNextMeeting,
+                modelCreatedAt, modelTags);
     }
 
 }

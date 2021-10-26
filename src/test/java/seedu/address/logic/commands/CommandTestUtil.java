@@ -2,7 +2,9 @@ package seedu.address.logic.commands;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_ADDRESS;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_BIRTHDAY;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_CLIENTID;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_CREATEDAT;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_CURRENTPLAN;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_DISPOSABLEINCOME;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_EMAIL;
@@ -37,6 +39,8 @@ public class CommandTestUtil {
     public static final String VALID_EMAIL_BOB = "bob@example.com";
     public static final String VALID_ADDRESS_AMY = "Block 312, Amy Street 1";
     public static final String VALID_ADDRESS_BOB = "Block 123, Bobby Street 3";
+    public static final String VALID_BIRTHDAY_AMY = "24-09-1999";
+    public static final String VALID_BIRTHDAY_BOB = "24-09-1999";
     public static final String VALID_LASTMET_AMY = "24-09-2021";
     public static final String VALID_LASTMET_BOB = "24-09-2021";
     public static final String VALID_RISKAPPETITE_AMY = "3";
@@ -49,6 +53,8 @@ public class CommandTestUtil {
     public static final String VALID_NEXTMEETING_DATE_BOB = "24-09-2051";
     public static final String VALID_NEXTMEETING_TIME_BOB = "12:00";
     public static final String VALID_NEXTMEETING_LOCATION_BOB = "Zoom";
+    public static final String VALID_CREATEDAT_AMY = "24-09-2020";
+    public static final String VALID_CREATEDAT_BOB = "24-09-2020";
     public static final String VALID_CURRENTPLAN_AMY = "Prudential PRUwealth";
     public static final String VALID_CURRENTPLAN_BOB = "Prudential PROwealth";
     public static final String VALID_TAG_HUSBAND = "husband";
@@ -63,6 +69,8 @@ public class CommandTestUtil {
     public static final String EMAIL_DESC_BOB = " " + PREFIX_EMAIL + VALID_EMAIL_BOB;
     public static final String ADDRESS_DESC_AMY = " " + PREFIX_ADDRESS + VALID_ADDRESS_AMY;
     public static final String ADDRESS_DESC_BOB = " " + PREFIX_ADDRESS + VALID_ADDRESS_BOB;
+    public static final String BIRTHDAY_DESC_AMY = " " + PREFIX_BIRTHDAY + VALID_BIRTHDAY_AMY;
+    public static final String BIRTHDAY_DESC_BOB = " " + PREFIX_BIRTHDAY + VALID_BIRTHDAY_BOB;
     public static final String RISKAPPETITE_DESC_AMY = " " + PREFIX_RISKAPPETITE + VALID_RISKAPPETITE_AMY;
     public static final String RISKAPPETITE_DESC_BOB = " " + PREFIX_RISKAPPETITE + VALID_RISKAPPETITE_BOB;
     public static final String DISPOSABLEINCOME_DESC_AMY = " " + PREFIX_DISPOSABLEINCOME + VALID_DISPOSABLEINCOME_AMY;
@@ -71,6 +79,7 @@ public class CommandTestUtil {
     public static final String LASTMET_DESC_BOB = " " + PREFIX_LASTMET + VALID_LASTMET_BOB;
     public static final String CURRENTPLAN_DESC_AMY = " " + PREFIX_CURRENTPLAN + VALID_CURRENTPLAN_AMY;
     public static final String CURRENTPLAN_DESC_BOB = " " + PREFIX_CURRENTPLAN + VALID_CURRENTPLAN_BOB;
+
     public static final String TAG_DESC_FRIEND = " " + PREFIX_TAG + VALID_TAG_FRIEND;
     public static final String TAG_DESC_HUSBAND = " " + PREFIX_TAG + VALID_TAG_HUSBAND;
 
@@ -92,6 +101,7 @@ public class CommandTestUtil {
     static {
         DESC_AMY = new EditClientDescriptorBuilder().withName(VALID_NAME_AMY)
                 .withPhone(VALID_PHONE_AMY).withEmail(VALID_EMAIL_AMY).withAddress(VALID_ADDRESS_AMY)
+                .withBirthday(VALID_BIRTHDAY_AMY)
                 .withRiskAppetite(VALID_RISKAPPETITE_AMY).withDisposableIncome(VALID_DISPOSABLEINCOME_AMY)
                 .withCurrentPlan(VALID_CURRENTPLAN_AMY).withLastMet(VALID_LASTMET_AMY)
                 .withNextMeeting(VALID_NEXTMEETING_DATE_AMY, VALID_NEXTMEETING_TIME_AMY, VALID_NEXTMEETING_TIME_AMY,
@@ -99,6 +109,7 @@ public class CommandTestUtil {
                 .withTags(VALID_TAG_FRIEND).build();
         DESC_BOB = new EditClientDescriptorBuilder().withName(VALID_NAME_BOB)
                 .withPhone(VALID_PHONE_BOB).withEmail(VALID_EMAIL_BOB).withAddress(VALID_ADDRESS_BOB)
+                .withBirthday(VALID_BIRTHDAY_AMY)
                 .withRiskAppetite(VALID_RISKAPPETITE_BOB).withDisposableIncome(VALID_DISPOSABLEINCOME_BOB)
                 .withCurrentPlan(VALID_CURRENTPLAN_BOB).withLastMet(VALID_LASTMET_BOB)
                 .withNextMeeting(VALID_NEXTMEETING_DATE_BOB, VALID_NEXTMEETING_TIME_BOB, VALID_NEXTMEETING_TIME_BOB,

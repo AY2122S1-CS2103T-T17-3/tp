@@ -1,5 +1,7 @@
 package seedu.address.testutil;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.function.Function;
@@ -7,8 +9,10 @@ import java.util.function.Function;
 import seedu.address.logic.parser.ParserUtil;
 import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.client.Address;
+import seedu.address.model.client.Birthday;
 import seedu.address.model.client.Client;
 import seedu.address.model.client.ClientId;
+import seedu.address.model.client.CreatedAt;
 import seedu.address.model.client.CurrentPlan;
 import seedu.address.model.client.DisposableIncome;
 import seedu.address.model.client.Email;
@@ -30,10 +34,12 @@ public class ClientBuilder {
     public static final String DEFAULT_PHONE = "85355255";
     public static final String DEFAULT_EMAIL = "amy@gmail.com";
     public static final String DEFAULT_ADDRESS = "123, Jurong West Ave 6, #08-111";
+    public static final String DEFAULT_BIRTHDAY = "01-01-1990";
     public static final String DEFAULT_RISKAPPETITE = "3";
     public static final String DEFAULT_DISPOSABLEINCOME = "300";
     public static final String DEFAULT_LASTMET = "24-09-2021";
-    public static final String DEFAULT_NEXTMEETING = "24-09-2051 (10:00~12:00), Starbucks @ UTown";
+    public static final String DEFAULT_NEXTMEETING = "No meeting planned";
+    public static final String DEFAULT_CREATEDAT = LocalDate.now().format(DateTimeFormatter.ofPattern("dd-MM-yyyy"));
     public static final String DEFAULT_CURRENTPLAN = "Prudential PRUwealth";
 
     private ClientId clientId;
@@ -41,8 +47,10 @@ public class ClientBuilder {
     private Phone phone;
     private Email email;
     private Address address;
+    private Birthday birthday;
     private LastMet lastMet;
     private NextMeeting nextMeeting;
+    private CreatedAt createdAt;
     private CurrentPlan currentPlan;
     private RiskAppetite riskAppetite;
     private DisposableIncome disposableIncome;
@@ -57,6 +65,7 @@ public class ClientBuilder {
         phone = new Phone(DEFAULT_PHONE);
         email = new Email(DEFAULT_EMAIL);
         address = new Address(DEFAULT_ADDRESS);
+        birthday = new Birthday(DEFAULT_BIRTHDAY);
         riskAppetite = new RiskAppetite(DEFAULT_RISKAPPETITE);
         disposableIncome = new DisposableIncome(DEFAULT_DISPOSABLEINCOME);
         lastMet = new LastMet(DEFAULT_LASTMET);
@@ -66,7 +75,7 @@ public class ClientBuilder {
             nextMeeting = new NextMeeting("24-09-2021", "10:00", "12:00",
                 "Starbucks @ UTown", name.fullName);
         }
-
+        createdAt = new CreatedAt(DEFAULT_CREATEDAT);
         currentPlan = new CurrentPlan(DEFAULT_CURRENTPLAN);
         tags = new HashSet<>();
     }
@@ -80,11 +89,13 @@ public class ClientBuilder {
         phone = clientToCopy.getPhone();
         email = clientToCopy.getEmail();
         address = clientToCopy.getAddress();
+        birthday = clientToCopy.getBirthday();
         riskAppetite = clientToCopy.getRiskAppetite();
         disposableIncome = clientToCopy.getDisposableIncome();
         currentPlan = clientToCopy.getCurrentPlan();
         lastMet = clientToCopy.getLastMet();
         nextMeeting = clientToCopy.getNextMeeting();
+        createdAt = clientToCopy.getCreatedAt();
         tags = new HashSet<>(clientToCopy.getTags());
     }
 
@@ -117,6 +128,14 @@ public class ClientBuilder {
      */
     public ClientBuilder withAddress(String address) {
         this.address = new Address(address);
+        return this;
+    }
+
+    /**
+     * Sets the {@code Birthday} of the {@code Client} that we are building.
+     */
+    public ClientBuilder withBirthday(String birthday) {
+        this.birthday = new Birthday(birthday);
         return this;
     }
 
@@ -174,7 +193,15 @@ public class ClientBuilder {
     }
 
     /**
-     * Sets the {@code Email} of the {@code Client} that we are building.
+     * Sets the {@code CreatedAt} of the {@code Client} that we are building.
+     */
+    public ClientBuilder withCreatedAt(String createdAt) {
+        this.createdAt = new CreatedAt(createdAt);
+        return this;
+    }
+
+    /**
+     * Sets the {@code CurrentPlan} of the {@code Client} that we are building.
      */
     public ClientBuilder withCurrentPlan(String currentPlan) {
         this.currentPlan = new CurrentPlan(currentPlan);
@@ -185,15 +212,15 @@ public class ClientBuilder {
      * @return {@code Client} that we are building
      */
     public Client build() {
-        return new Client(clientId, name, phone, email, address, riskAppetite,
-            disposableIncome, currentPlan, lastMet, nextMeeting, tags);
+        return new Client(clientId, name, phone, email, address, birthday, riskAppetite,
+            disposableIncome, currentPlan, lastMet, nextMeeting, createdAt, tags);
     }
 
     /**
      * @return {@code Client} function that we are building
      */
     public Function<ClientId, Client> buildFunction() {
-        return clientId -> new Client(clientId, name, phone, email, address, riskAppetite,
-            disposableIncome, currentPlan, lastMet, nextMeeting, tags);
+        return clientId -> new Client(clientId, name, phone, email, address, birthday,
+            riskAppetite, disposableIncome, currentPlan, lastMet, nextMeeting, createdAt, tags);
     }
 }

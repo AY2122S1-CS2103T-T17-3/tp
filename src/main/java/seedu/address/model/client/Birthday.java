@@ -9,52 +9,42 @@ import java.time.format.DateTimeFormatter;
 
 import seedu.address.commons.util.StringUtil;
 
-public class LastMet implements OptionalNonStringBasedField {
-    public static final String MESSAGE_CONSTRAINTS = "LastMet should be in the form of Day-Month-Year, "
+public class Birthday implements OptionalNonStringBasedField {
+    public static final String MESSAGE_CONSTRAINTS = "Birthday should be in the form of Day-Month-Year, "
             + "where Day, month and year should be numerical values.";
 
     public final LocalDate value;
     public final String dateInString;
 
     /**
-     * Constructs an {@code LastMet}.
+     * Constructs an {@code Birthday}.
      *
-     * @param lastMetDate date agent last meets a client
+     * @param birthdayDate client's birthday
      */
-    public LastMet(String lastMetDate) {
+    public Birthday(String birthdayDate) {
         if (!IS_NULL_VALUE_ALLOWED) {
-            requireNonNull(lastMetDate);
+            requireNonNull(birthdayDate);
         }
-        if (lastMetDate == null) {
-            lastMetDate = "";
+        if (birthdayDate == null) {
+            birthdayDate = "";
         }
 
-        checkArgument(isValidDate(lastMetDate), MESSAGE_CONSTRAINTS);
-        dateInString = lastMetDate;
+        checkArgument(isValidDate(birthdayDate), MESSAGE_CONSTRAINTS);
+        dateInString = birthdayDate;
 
-        if (lastMetDate.isEmpty()) {
+        if (birthdayDate.isEmpty()) {
             value = null;
         } else {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-            value = LocalDate.parse(lastMetDate, formatter);
+            value = LocalDate.parse(birthdayDate, formatter);
         }
     }
 
     /**
-     * Returns if a given string is a valid lastMet.
+     * Returns if a given string is a valid birthday.
      */
-    public static boolean isValidLastMet(String test) {
+    public static boolean isValidBirthday(String test) {
         return StringUtil.isValidDate(test);
-    }
-
-    /**
-     * Returns the more recent LastMet from comparing {@code this} and {@code other}
-     */
-    public LastMet getLaterLastMet(LastMet other) {
-        if (value == null) {
-            return other;
-        }
-        return this.value.isBefore(other.value) ? other : this;
     }
 
     @Override
@@ -69,8 +59,8 @@ public class LastMet implements OptionalNonStringBasedField {
     @Override
     public boolean equals(Object other) {
         return other == this // short circuit if same object
-                || (other instanceof LastMet // instanceof handles nulls
-                && value.equals(((LastMet) other).value)); // state check
+                || (other instanceof Birthday // instanceof handles nulls
+                && value.equals(((Birthday) other).value)); // state check
     }
 
     @Override
