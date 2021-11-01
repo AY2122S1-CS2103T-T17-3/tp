@@ -77,7 +77,7 @@ Current financial plans | String | c/
 Disposable Income | Integer | d/
 Last met | Date | l/
 Next Meeting | Composite (More information below table) | m/
-Phone number | Integer (at least 3 digits long)| p/
+Contact number | Integer (at least 3 digits long)| p/
 Risk appetite | Integer from 1-5, <br>where 1 is very low risk tolerance and 5 is very high risk tolerance| r/
 Tag | String | t/
 
