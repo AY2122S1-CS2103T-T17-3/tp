@@ -49,15 +49,15 @@ Finding your next lead has never been easier.
 5. Type the command in the command box and press Enter to execute it. e.g. typing **`help`** and pressing Enter will open the help window.<br>
    Some example commands you can try:
 
-    * **`list`** : Lists all contacts.
+    * `list` : Lists all contacts.
 
-    * **`add`**`n/John Doe p/98765432 e/johnd@example.com a/John street, block 123, #01-01` : Creates a contact named `John Doe` to the Address Book.
+    * `add n/John Doe p/98765432 e/johnd@example.com a/John street, block 123, #01-01` : Creates a contact named `John Doe` to the Address Book.
 
-    * **`delete`**`3` : Deletes the 3rd contact shown in the current list.
+    * `delete 3` : Deletes the 3rd contact shown in the current list.
 
-    * **`clear`** : Deletes all contacts.
+    * `clear` : Deletes all contacts.
 
-    * **`exit`** : Exits the app.
+    * `exit` : Exits the app.
 
 6. Refer to the [Features](#features) below for details of each command.
 
@@ -73,13 +73,27 @@ Client ID (**Unique**) | Integer (assigned on creation of new contact) | i/
 Name (**Compulsory**) | String | n/
 Email (**Compulsory**)| String (email address)| e/
 Address | String | a/
-Current financial plans | List of Strings | c/
+Current financial plans | String | c/
 Disposable Income | Integer | d/
 Last met | Date | l/
 Next Meeting | Composite (More information below table) | m/
-Contact number | Integer (8 digits long)| p/
+Phone number | Integer (at least 3 digits long)| p/
 Risk appetite | Integer from 1-5, <br>where 1 is very low risk tolerance and 5 is very high risk tolerance| r/
 Tag | String | t/
+
+### Duplicate Clients
+A client is considered to be the same as another client if they share the same **name** and **email**.
+
+LeadsForce has checks that prevent users from creating duplicated contacts.
+
+<div markdown="block" class="alert alert-info">
+
+**:information_source: Notes about having the same client information for various attributes:**<br>
+
+* Users have the flexibility to give the same name, email, phone number or any other attributes to multiple users, as long as
+   2 separate clients do not end up with the same name and email.
+
+</div>
 
 ### NextMeeting
 NextMeeting entails the next meeting's *date*, *startTime*, *endTime* and *location*.
@@ -100,7 +114,12 @@ Furthermore, when the NextMeeting is over, the NextMeeting will automatically be
 This happens whenever the changes are made to the client list or when the address book is opened/loaded.
 
 ### LastMet
-Similar to NextMeeting, the LastMet is automatically updated from a NextMeeting that is over.
+LastMet entails the last met *date* with the client.
+The *date* is to be inputted in the following form:
+
+`l/dd-MM-yyyy`
+
+Similar to NextMeeting, the LastMet is automatically updated from a NextMeeting that has passed.
 
 --------------------------------------------------------------------------------------------------------------------
 
